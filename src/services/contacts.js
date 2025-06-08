@@ -1,9 +1,9 @@
 import { ContactsCollection } from '../models/contactSchema.js';
 
-export const getAllContacts = async ({ page, perPage, sortBy, sortOrder, filter }) => {
+export const getAllContacts = async ({ page, perPage, sortBy, sortOrder, filter, userId}) => {
   const skip = (page - 1) * perPage;
 
-  const contactsQuery = ContactsCollection.find();
+  const contactsQuery = ContactsCollection.find({userId});
 
 
   if (typeof filter.isFavourite === 'boolean') {
@@ -15,7 +15,7 @@ export const getAllContacts = async ({ page, perPage, sortBy, sortOrder, filter 
   }
 
   const [totalItems, data] = await Promise.all([
-    ContactsCollection.countDocuments({}),
+    ContactsCollection.countDocuments({userId}),
     contactsQuery
       .sort({ [sortBy]: sortOrder })
       .skip(skip)
@@ -35,8 +35,8 @@ export const getAllContacts = async ({ page, perPage, sortBy, sortOrder, filter 
   };
 };
 
-export const getContactById = async (contactId) => {
-  const contact = await ContactsCollection.findById(contactId);
+export const getContactById = async (contactId, userId) => {
+  const contact = await ContactsCollection.findOne({ _id: contactId, userId });
   return contact;
 };
 
@@ -45,16 +45,19 @@ export const createContact = async (payload) => {
   return contact;
 };
 
-export const updateContact = async (contactId, payload) => {
-  const contact = await ContactsCollection.findByIdAndUpdate(
-    contactId,
+export const updateContact = async (contactId, payload, userId) => {
+  const contact = await ContactsCollection.findOneAndUpdate(
+    { _id: contactId, userId },
     payload,
     { new: true },
   );
   return contact;
 };
 
-export const deleteContact = async (contactId) => {
-  const contact = await ContactsCollection.findByIdAndDelete(contactId);
+export const deleteContact = async (contactId, userId) => {
+  const contact = await ContactsCollection.findOneAndDelete({
+    _id: contactId,
+    userId,
+  });
   return contact;
 };
