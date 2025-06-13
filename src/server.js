@@ -25,11 +25,13 @@ export const setupServer = () => {
   app.use(cookieParser());
   app.use(router);
 
-  app.use(notFoundHandler);
-  app.use(errorHandler);
 
   app.use('/uploads', express.static(UPLOAD_DIR));
   
+  app.use(notFoundHandler);
+  app.use(errorHandler);
+
+
   app.listen(PORT, (error) => {
     if (error) {
       throw error;
