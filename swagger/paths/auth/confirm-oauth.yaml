@@ -1,0 +1,46 @@
+tags:
+  - Auth
+summary: Confirm Google OAuth URL
+operationId: confirmGoogleOauthUrl
+description: Confirm a Google OAuth URL for authentication.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - code
+        properties:
+          code:
+            type: string
+            description: Google OAuth authorization code
+            example: 4/0AUJR-x5adX8e_Hc7uPXF-Fy5ААKZKqG-ktcSQ5-wSPM6sfKqqeJcXvjJwQ6RcNoIOZSjqq
+responses:
+  '200':
+    description: Successfully logged in via Google OAuth!
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [status, message, data]
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully logged in via Google OAuth!
+            data:
+              type: object
+              required: [accessToken]
+              properties:
+                accessToken:
+                  type: string
+                  example: Y12l/GjxtA2cV69sXhLsdqncNQCv76u2Mm0r8Fvs
+  '400':
+    $ref: '../../components/responses/400.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'
