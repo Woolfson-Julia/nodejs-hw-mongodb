@@ -65,7 +65,7 @@ export const createContactController = async (req, res, next) => {
   });
 
   if (!contact) {
-    next(createHttpError(404, 'Contact not found'));
+    next(createHttpError(401, 'Contact not found'));
     return;
   }
 

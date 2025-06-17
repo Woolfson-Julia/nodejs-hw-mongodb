@@ -18,11 +18,15 @@ requestBody:
           name:
             description: "Contact's name"
             type: string
-            example: 'John Doe'
+            example: John Doe
           phoneNumber:
             description: "Contact's phone number"
             type: string
-            example: '+380505656565'
+            example: "+380505656565"
+          email:
+            description: "Contact's email"
+            type: string
+            example: "john@gmail.com"
           contactType:
             description: "Contact's type"
             type: string
@@ -31,10 +35,6 @@ requestBody:
             description: 'Whether is contact favourite'
             type: boolean
             example: false
-          userId:
-            description: "Contact's user id"
-            type: string
-            example: 65e4decdd286b30065d54af9
           photo:
             description: "Contact's photo"
             type: string
